@@ -1,0 +1,41 @@
+--Creating a used car Database
+
+CREATE TABLE cars (id INTEGER PRIMARY KEY, make TEXT, model TEXT, year INTEGER, price INTEGER, quantity INTEGER);
+
+INSERT INTO cars VALUES
+(1, "Honda", "Accord", 2017, 25590, 1),
+(2, "Toyota", "Camry", 2012, 16999, 1),
+(3, "Ford", "F150", 2016, 27990, 1),
+(4, "Honda", "CRV", 2017, 25590, 1),
+(5, "Ford", "Explorer", 2014, 20590, 1),
+(6, "Ford", "Mustang", 2010, 17600, 1),
+(7, "Toyota", "Prius", 2021, 25600, 1),
+(8, "Toyota", "Tacoma", 2016, 32000, 1),
+(9, "Infiniti", "G25x", 2013, 8999, 1),
+(10, "Honda", "Civic", 2020, 26400, 1),
+(11, "Infiniti", "Q50", 2021, 35999, 1),
+(12, "Toyota", "RAV4", 2022, 32900, 1),
+(13, "Infiniti", "QX60", 2019, 29000, 1), 
+(14, "Honda", "Odyssey", 2019, 31600, 1),
+(15, "Honda", "Accord", 2015, 18700, 1);
+
+--display the database ordered by price
+SELECT * FROM cars
+ORDER BY price asc;
+
+--display the quantity of vehicles per manufacturer
+SELECT make,
+SUM(quantity)
+FROM cars
+GROUP BY make;
+
+--what is the average price of vehicles made by Toyota?
+SELECT AVG(price)
+FROM cars
+WHERE make = 'Toyota';
+
+--what are the 5 most expensive cars?
+SELECT model, year, price
+FROM cars
+ORDER BY price desc
+Limit 5;
