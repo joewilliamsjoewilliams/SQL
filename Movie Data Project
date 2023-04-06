@@ -139,3 +139,9 @@ GROUP BY year
 HAVING avg_worldwide_gross >= 800
 ORDER BY year desc
 ;
+
+--Displays the movies released by Sony which grossed over 800 million.
+SELECT * FROM topmovies
+WHERE studio = "Sony"
+AND worldwide >= 800
+;
