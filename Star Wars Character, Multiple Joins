@@ -1,0 +1,32 @@
+CREATE TABLE characters (id INTEGER PRIMARY KEY AUTOINCREMENT,
+name TEXT, affiliation TEXT);
+
+INSERT INTO characters (name, affiliation) VALUES ("Luke Skywalker","Rebel Alliance");
+INSERT INTO characters (name, affiliation) VALUES ("Han Solo", "Rebel Alliance");
+INSERT INTO characters (name, affiliation) VALUES ("Darth Vader","Galactic Empire");
+INSERT INTO characters (name, affiliation) VALUES ("Lord Sidious","Galactic Empire");
+INSERT INTO characters (name, affiliation) VALUES ("Anakin Skywalker","Galactic Republic");
+INSERT INTO characters (name, affiliation) VALUES ("General Greivous","Separatist Alliance");
+INSERT INTO characters (name, affiliation) VALUES ("Obi Wan Kenobi","Galactic Republic");
+INSERT INTO characters (name, affiliation) VALUES ("Count Dooku","Separatist Alliance");
+INSERT INTO characters (name, affiliation) VALUES ("Kylo Ren","First Order");
+INSERT INTO characters (name, affiliation) VALUES ("Rey","Resistance");
+INSERT INTO characters (name, affiliation) VALUES ("General Hux","First Order");
+INSERT INTO characters (name, affiliation) VALUES ("Poe Dameron","Resistance");
+
+CREATE TABLE comrades (id INTEGER PRIMARY KEY AUTOINCREMENT, person1id INTEGER, person2id INTEGER);
+
+INSERT INTO comrades (person1id, person2id) VALUES (1, 2);
+INSERT INTO comrades (person1id, person2id) VALUES (3, 4);
+INSERT INTO comrades (person1id, person2id) VALUES (5, 7);
+INSERT INTO comrades (person1id, person2id) VALUES (6, 8);
+INSERT INTO comrades (person1id, person2id) VALUES (9, 11);
+INSERT INTO comrades (person1id, person2id) VALUES (10, 12);
+
+--Pairs the characters up by affiliation and labels what them with that affiliation
+SELECT a.name, b.name, a.affiliation FROM comrades
+JOIN characters a
+ON comrades.person1id = a.id
+JOIN characters b
+ON comrades.person2id = b.id
+
