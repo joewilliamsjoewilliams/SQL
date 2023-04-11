@@ -1,0 +1,68 @@
+The following project queries a database with multiple tables to quantify stats about the data.
+
+
+--Display how many sales there were in January
+SELECT count(*) FROM BIT_DB.JanSales
+WHERE length(orderid) = 6
+AND orderid <> ''
+;
+
+--Display how many sales were for iPhones in January
+SELECT count(*) FROM BIT_DB.JanSales
+WHERE length(orderid) = 6
+AND orderid <> ''
+AND product = 'iPhone'
+;
+
+--Display the customer account numbers for all orders placed in February
+SELECT
+DISTINCT acctnum 
+FROM BIT_DB.FebSales FebSales
+LEFT JOIN BIT_DB.customers customers
+ON customers.order_id = FebSales.orderID
+WHERE length(order_id) = 6
+;
+
+--Display the cheapest product sold in January along with the price
+SELECT 
+product,
+MIN(price)
+FROM BIT_DB.JanSales
+WHERE length(orderid) = 6
+LIMIT 1
+;
+
+--Display the various products sold in January along with the price per unit, total quantity of that product sold, and the total revenue from each type of product sold
+SELECT
+product,
+SUM(quantity)*price AS 'Total Revenue',
+SUM(quantity) AS 'Total Quantity Sold',
+price AS 'Price per Unit'
+FROM BIT_DB.JanSales
+WHERE length(orderid) = 6
+GROUP BY product
+;
+
+--Display what products were sold at a specific location, how many were sold, the price of each product, and the total revenue
+SELECT
+product,
+location,
+quantity,
+price,
+quantity*price AS revenue
+FROM BIT_DB.FebSales
+WHERE length(orderid) = 6
+AND location = '548 Lincoln St, Seattle, WA 98101'
+;
+
+--Display how many customers ordered more than 2 products at a time and the average amount spent for all of those orders
+SELECT
+count(DISTINCT acctnum) AS 'number of customers',
+AVG(quantity*price) AS 'avg amount spent'
+FROM BIT_DB.FebSales FebSales
+LEFT JOIN BIT_DB.customers customers
+ON customers.order_id = FebSales.orderid
+WHERE length(orderid) = 6
+AND quantity > 2
+;
+
