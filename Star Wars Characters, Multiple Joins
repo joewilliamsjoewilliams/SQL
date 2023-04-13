@@ -23,7 +23,7 @@ INSERT INTO comrades (person1id, person2id) VALUES (6, 8);
 INSERT INTO comrades (person1id, person2id) VALUES (9, 11);
 INSERT INTO comrades (person1id, person2id) VALUES (10, 12);
 
---Pairs the characters up by affiliation and labels what them with that affiliation
+--Pairs the characters up by affiliation and labels them with that affiliation
 SELECT a.name, b.name, a.affiliation FROM comrades
 JOIN characters a
 ON comrades.person1id = a.id
