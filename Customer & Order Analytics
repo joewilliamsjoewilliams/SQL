@@ -1,9 +1,9 @@
-The following project queries a database with multiple tables to quantify stats about the data.
+The following project queries a database with multiple tables to quantify stats about customer orders
 
 
 --Display how many sales there were in January
 SELECT
-count(*)
+COUNT(*)
 FROM BIT_DB.JanSales
 WHERE length(orderid) = 6
 AND orderid <> ''
@@ -11,7 +11,7 @@ AND orderid <> ''
 
 --Display how many sales were for iPhones in January
 SELECT 
-count(*)
+COUNT(*)
 FROM BIT_DB.JanSales
 WHERE length(orderid) = 6
 AND orderid <> ''
@@ -61,7 +61,7 @@ AND location = '548 Lincoln St, Seattle, WA 98101'
 
 --Display how many customers ordered more than 2 products at a time and the average amount spent for all of those orders
 SELECT
-count(DISTINCT acctnum) AS 'number of customers',
+COUNT(DISTINCT acctnum) AS 'number of customers',
 AVG(quantity*price) AS 'avg amount spent'
 FROM BIT_DB.FebSales FebSales
 LEFT JOIN BIT_DB.customers customers
@@ -69,7 +69,6 @@ ON customers.order_id = FebSales.orderid
 WHERE length(orderid) = 6
 AND quantity > 2
 ;
-
 
 --List all of the products sold in Los Angeles in February, include how many of each were sold
 SELECT
@@ -79,4 +78,54 @@ FROM BIT_DB.FebSales
 WHERE location like '%Los Angeles%'
 GROUP BY product
 ;
+
+--Display which locations in NY received at least 3 orders in January, and show how many orders those locations received
+SELECT
+distinct location,
+count(orderID) orders
+FROM BIT_DB.JanSales
+WHERE length(orderID) = 6
+AND location like '%NY%'
+GROUP BY location
+HAVING orders > 2
+;
+
+--Display how many of each type of headphone were sold in February
+SELECT
+product,
+SUM(quantity)
+FROM BIT_DB.FebSales
+WHERE length(orderID) = 6
+AND product LIKE '%headphone%'
+GROUP BY product
+;
+
+--Display the average amount spent per account in February
+SELECT
+SUM(price*quantity) / COUNT(acctnum)
+FROM BIT_DB.FebSales Feb
+LEFT JOIN BIT_DB.customers cust
+ON cust.order_id = Feb.orderID
+WHERE length(orderID) = 6
+;
+
+--Display the average quantity of products purchased per account in February
+SELECT
+SUM(quantity) / COUNT(quantity)
+FROM BIT_DB.FebSales Feb
+LEFT JOIN BIT_DB.customers cust
+ON cust.order_id = Feb.orderID
+WHERE length(orderID) = 6
+;
+
+--Display the product that brought the most revenue in January and show how much that revenue was
+SELECT
+product, 
+SUM(quantity*price)
+FROM BIT_DB.JanSales 
+GROUP BY product
+ORDER BY sum(quantity*price) DESC 
+LIMIT 1
+;
+
 
