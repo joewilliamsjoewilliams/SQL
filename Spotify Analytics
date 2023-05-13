@@ -1,6 +1,6 @@
-#I downloaded spotify data from Kaggle, created a table to insert the spotify data into it, and performed an analyses of the data using SQLiteStudio
+# I downloaded spotify data from Kaggle, created a table to insert the spotify data into it, and performed an analyses of the data using SQLiteStudio
 
-#Creating the Table
+# Creating the Table
 CREATE TABLE BIT_DB.Spotifydata (
 id integer PRIMARY KEY,
 artist_name varchar NOT NULL,
@@ -22,9 +22,9 @@ duration_ms integer NOT NULL,
 time_signature integer NOT NULL)
 ;
 
-#I then inserted the spotifydata.csv into the table and explored the data with the following SQL...
+# I then inserted the spotifydata.csv into the table and explored the data with the following SQL...
 
-#Finding the average tempo of the 5 most popular songs
+# Finding the average tempo of the 5 most popular songs
 SELECT AVG(tempo)
 FROM (SELECT tempo
 FROM Spotifydata
@@ -32,7 +32,7 @@ ORDER BY popularity DESC
 LIMIT 5) x
 ;
 
-#Finding the average tempo of the 5 least popular songs
+# Finding the average tempo of the 5 least popular songs
 SELECT AVG(tempo)
 FROM (SELECT tempo
 FROM Spotifydata
@@ -40,7 +40,7 @@ ORDER BY popularity ASC
 LIMIT 5) x
 ;
 
-#Finding the 10 artists with the loudest songs
+# Finding the 10 artists with the loudest songs
 SELECT
 artist_name 
 FROM Spotifydata
@@ -48,7 +48,7 @@ ORDER BY loudness DESC
 LIMIT 10
 ;
 
-#Finding the average popularity of those songs
+# Finding the average popularity of those songs
 SELECT
 AVG(popularity)
 FROM (SELECT popularity 
@@ -57,7 +57,7 @@ ORDER BY loudness DESC
 LIMIT 10)
 ;
 
-#Labelling each track as 'very popular', 'popular', or 'less popular', then displaying only the 'very popular' tracks
+# Labelling each track as 'very popular', 'popular', or 'less popular', then displaying only the 'very popular' tracks
 SELECT
 track_name,
 CASE
@@ -69,11 +69,21 @@ FROM Spotifydata
 WHERE Popularity_Description = 'Very Popular'
 ;
 
-#Finding the average duration of all of the tracks, converting from milliseconds to minutes
+# Finding the average duration of all of the tracks, converting from milliseconds to minutes
 SELECT
 AVG(duration_ms / 1000) / 60 AS Duration_Mins
 FROM Spotifydata
 ;
+
+# Finding which artists have more than 1 song within the data
+SELECT
+artist_name, count(artist_name) AS songs
+FROM SpotifyData
+GROUP BY artist_name
+HAVING songs > 1
+;
+
+
 
 
 
