@@ -128,4 +128,11 @@ ORDER BY sum(quantity*price) DESC
 LIMIT 1
 ;
 
+--Display the various products sold in Los Angeles during the month of February and how many of each were sold 
+SELECT product, SUM(quantity)
+FROM BIT_DB.FebSales
+WHERE location LIKE '%Los Angeles%'
+GROUP BY product
+;
+
 
