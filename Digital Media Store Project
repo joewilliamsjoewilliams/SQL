@@ -117,5 +117,55 @@ ORDER  BY sum(totaL) desc
 LIMIT 1;
 
 
+15. Show the longest tenured employee.
+
+SELECT FirstName, LastName, hiredate
+FROM employees
+ORDER BY hiredate ASC
+LIMIT 1;
+
+
+16. Write a query that shows all invoices with the customers' fullnames, invoice date, track purchased, and price.
+
+SELECT invoices.invoiceid, invoicedate, customers.FirstName, customers.LastName, tracks.name AS 'track purchased'
+FROM invoices
+JOIN invoice_items
+ON invoices.invoiceid = invoice_items.invoiceid
+JOIN customers
+ON invoices.customerid = customers.customerid
+JOIN tracks
+ON invoice_items.trackid = tracks.trackid
+ORDER BY invoicedate ASC;
+
+
+17a. Show the total revenue for each month in the data set.
+
+SELECT strftime("%m-%Y", invoicedate) as 'Month-Year', ROUND(SUM(total), 2) as 'Monthly Revenue'
+FROM invoices
+GROUP BY strftime("%m-%Y", invoicedate)
+ORDER BY strftime("%Y", invoicedate);
+
+
+17b. Do the same for each year.
+
+SELECT strftime("%Y", invoicedate) as 'Year', ROUND(SUM(total), 2) as 'Revenue'
+FROM invoices
+GROUP BY strftime("%Y", invoicedate)
+ORDER BY strftime("%Y", invoicedate)
+;
+
+
+18. How many songs does each artist have in this database?
+
+SELECT count(distinct tracks.name) as songs, artists.name as artist
+FROM artists
+LEFT JOIN albums
+ON albums.artistid = artists.artistid
+INNER JOIN tracks
+ON tracks.albumid = albums.albumid
+GROUP BY artists.name
+ORDER BY count(tracks.name) DESC
+;
+
 
 
